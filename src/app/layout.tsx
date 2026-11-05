@@ -1,6 +1,32 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
+
+import { cn } from "@/lib/utils";
+import { ChevronDown, Plus, User2 } from "lucide-react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Public_Sans } from "next/font/google";
 import "./globals.css";
+
+const publicSans = Public_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,9 +47,54 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SidebarProvider>
+          <Sidebar variant="inset" collapsible="offcanvas">
+            <SidebarHeader>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger render={<SidebarMenuButton />}>
+                      Select Workspace
+                      <ChevronDown className="ml-auto" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <span>Acme Inc</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupLabel>Application</SidebarGroupLabel>
+                <SidebarGroupAction>
+                  <Plus /> <span className="sr-only">Add Project</span>
+                </SidebarGroupAction>
+                <SidebarGroupContent>
+                  projects
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <User2 /> Username
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarFooter>
+          </Sidebar>
+          <SidebarInset>
+            {children}
+          </SidebarInset>
+        </SidebarProvider>
+      </body>
     </html>
   );
 }
