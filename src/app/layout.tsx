@@ -1,6 +1,5 @@
 import {
   Sidebar,
-  SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarInset,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { Darkmode } from "@/components/Darkmode";
+import SideNav from "@/components/SideNav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { User2 } from "lucide-react";
@@ -70,8 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   </div>
                 </div>
               </SidebarHeader>
-              <SidebarContent>
-              </SidebarContent>
+              <SideNav className="p-2 mt-5" />
               <SidebarFooter>
                 <Darkmode />
                 <SidebarMenu>
@@ -84,8 +83,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </SidebarFooter>
             </Sidebar>
             <SidebarInset>
-              <SidebarTrigger className="ml-7 mt-7" />
-              {children}
+              <SidebarTrigger className="ml-7 mt-7 cursor-pointer" />
+              <div className="p-10">
+                {children}
+              </div>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
