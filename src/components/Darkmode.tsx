@@ -17,7 +17,7 @@ export function Darkmode() {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <div>
-                    <div className="flex items-center p-3">
+                    <div className="flex justify-center items-center w-fit ml-3 group-data-[collapsible=icon]:ml-0 p-1 mb-4">
                         <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                         <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                         <span className="sr-only">Toggle theme</span>
