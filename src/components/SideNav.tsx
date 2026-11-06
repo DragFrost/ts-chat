@@ -1,5 +1,5 @@
 "use client";
-import { Info, MessageSquare, PhoneCall } from 'lucide-react';
+import { FileText, Info, MessageSquare, PhoneCall } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { SidebarContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar';
 
@@ -16,6 +16,13 @@ export default function SideNav({ className }: myProps) {
                     <SidebarMenuButton className="cursor-pointer" tooltip="Chat" onClick={() => router.push('/')}>
                         <MessageSquare />
                         <span>Chat</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                    <SidebarMenuButton className="cursor-pointer" tooltip="Document" onClick={() => router.push('/document')}>
+                        <FileText />
+                        <span>Document ingested</span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
 
