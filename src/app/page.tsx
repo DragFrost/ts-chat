@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
+import { Button } from '@/components/ui/button';
 import {
   InputGroup,
   InputGroupAddon,
@@ -16,6 +16,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Message, MessageContent } from "@/components/ui/message";
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { ArrowUpIcon, Sparkles } from "lucide-react";
 
 const STORAGE_KEY = "product-chat-history";
@@ -76,8 +77,13 @@ export default function Chat() {
   }, [messages, status, historyLoaded]);
 
   const suggestions = [
-    "What are the key ingredients in SBU-Grow Care?",
-    "What is the dosage of Vitamin D3 in the product mentioned?",
+    "What are the active ingredients in SBU-Grow Care?",
+    "How much Vitamin D3 is contained in one dosage?",
+    "What is the composition of one uncoated tablet of Imuza?",
+    "What are the components of NIMULID-MD?",
+    "Is there any Iron included in the dietary supplements?",
+    "What is the dosage of Cyclosporine in PANIMUN BIORAL 50 mg?",
+    "Can you list the vitamins included in ProSeventy?"
   ];
 
   const handleKeyDown = (
@@ -170,17 +176,22 @@ export default function Chat() {
         }}
       >
         {messages.length === 0 && (
-          <div className="mb-3 w-full min-w-0 overflow-x-auto overscroll-x-contain scrollbar-none">
-            <Suggestions className="flex w-max flex-nowrap gap-2">
+          <ScrollArea className="w-full h-17 rounded-md border whitespace-nowrap">
+            <div className="flex w-max space-x-4 p-4">
               {suggestions.map((suggestion) => (
-                <Suggestion
+                <Button
                   key={suggestion}
-                  onClick={handleSuggestionClick}
-                  suggestion={suggestion}
-                />
+                  variant="outline"
+                  size="sm"
+                  className="shrink-0"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion}
+                </Button>
               ))}
-            </Suggestions>
-          </div>
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         )}
 
         <InputGroup>
