@@ -18,7 +18,7 @@ export default function contact() {
                     Let's <span className="text-primary">Connect.</span>
                 </h1>
 
-                <p className="max-w-xl text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                     Have a question, feedback, or an interesting opportunity?
                     Feel free to reach out. I'd be happy to hear from you.
                 </p>

@@ -1,4 +1,5 @@
-import { ArrowDown, Badge, BrainCircuit, Code2, Component, Database, Gauge, Globe, Lightbulb, MessageSquare, Palette, Sparkles, Workflow } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowDown, ArrowRight, BrainCircuit, Code2, Component, Database, FileText, Gauge, Layers, Lightbulb, Palette, Sparkles, Workflow } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function about() {
                     Meet <span className="text-primary">Ts Chat.</span>
                 </h1>
 
-                <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                <p className="text-lg leading-relaxed text-muted-foreground">
                     A modern AI-powered conversational application built to explore the
                     intersection of full-stack development, large language models, and
                     intelligent information retrieval.
@@ -60,6 +61,112 @@ export default function about() {
                         how language models, database search, streaming, and modern
                         frontend technologies work together in a real-world environment.
                     </p>
+                </div>
+            </section>
+
+            {/* Document Ingestion & RAG Pipeline */}
+            <section className="mb-16 space-y-6">
+                <div className="space-y-2">
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                        Document Ingestion & RAG Pipeline
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                        Turning raw documents into searchable knowledge.
+                    </p>
+                </div>
+
+                <div className="space-y-4 leading-7 text-muted-foreground">
+                    <p>
+                        The application uses a separate Python-based ingestion pipeline
+                        built with LangChain to process PDF documents and prepare their
+                        contents for retrieval.
+                    </p>
+
+                    <p>
+                        During ingestion, the PDF content is extracted and divided into
+                        smaller, manageable chunks. These chunks are converted into
+                        numerical vector representations (embeddings), allowing the
+                        application to retrieve information based on semantic meaning
+                        rather than relying solely on exact keyword matches.
+                    </p>
+
+                    <p>
+                        The processed chunks, along with their embeddings and associated
+                        metadata, are stored in Supabase PostgreSQL. This makes the
+                        document content available for subsequent retrieval during
+                        conversations.
+                    </p>
+
+                    <p>
+                        When a user submits a question, the retrieval layer searches
+                        the stored document content using hybrid search, combining
+                        semantic similarity with PostgreSQL Full-Text Search. The
+                        retrieved information is then used as contextual input for
+                        OpenAI to generate a more relevant and grounded response.
+                    </p>
+                </div>
+
+                {/* Ingestion flow */}
+                <div className="rounded-xl border bg-card p-5 md:p-6">
+                    <div className="mb-5 flex items-center gap-2">
+                        <FileText className="size-5 text-primary" />
+                        <h3 className="font-semibold">Document Processing Workflow</h3>
+                    </div>
+
+                    <div className="flex flex-col items-center gap-3">
+                        {[
+                            {
+                                title: "PDF Document",
+                                subtitle: "Source document",
+                                icon: FileText,
+                            },
+                            {
+                                title: "Python + LangChain",
+                                subtitle: "Document loading and text extraction",
+                                icon: Code2,
+                            },
+                            {
+                                title: "Text Chunking",
+                                subtitle: "Splitting content into smaller chunks",
+                                icon: Layers,
+                            },
+                            {
+                                title: "Embedding Generation",
+                                subtitle: "Converting text into vector representations",
+                                icon: BrainCircuit,
+                            },
+                            {
+                                title: "Supabase PostgreSQL",
+                                subtitle: "Storing chunks, embeddings, and metadata",
+                                icon: Database,
+                            },
+                        ].map((step, index, array) => {
+                            const Icon = step.icon;
+
+                            return (
+                                <div key={step.title} className="w-full max-w-md">
+                                    <div className="flex items-center gap-4 rounded-lg border bg-background p-4">
+                                        <div className="rounded-lg bg-primary/10 p-2.5">
+                                            <Icon className="size-5 text-primary" />
+                                        </div>
+
+                                        <div>
+                                            <h4 className="text-sm font-semibold text-foreground">
+                                                {step.title}
+                                            </h4>
+                                            <p className="text-xs text-muted-foreground">
+                                                {step.subtitle}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {index !== array.length - 1 && (
+                                        <ArrowDown className="mx-auto my-1 size-4 text-muted-foreground" />
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </section>
 
@@ -125,6 +232,27 @@ export default function about() {
                                 "Provides reusable, customizable, and accessible interface components.",
                             icon: Component,
                         },
+                        {
+                            name: "Python",
+                            category: "Document Processing",
+                            description:
+                                "Powers the document ingestion pipeline, handling PDF processing and preparation of content for retrieval.",
+                            icon: Code2,
+                        },
+                        {
+                            name: "LangChain",
+                            category: "RAG Framework",
+                            description:
+                                "Handles document loading, text splitting, chunking, and embedding workflows for retrieval-augmented generation.",
+                            icon: Workflow,
+                        },
+                        {
+                            name: "Embeddings",
+                            category: "Semantic Representation",
+                            description:
+                                "Transforms document chunks into numerical vector representations for semantic similarity search.",
+                            icon: BrainCircuit,
+                        },
                     ].map((tech) => {
                         const Icon = tech.icon;
 
@@ -157,68 +285,57 @@ export default function about() {
             <section className="mb-16 space-y-6">
                 <div className="space-y-2">
                     <h2 className="text-2xl font-semibold tracking-tight">
-                        How It Works
+                        Application Architecture
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                        A simplified overview of the application's architecture.
+                        Two interconnected workflows power the application.
                     </p>
                 </div>
 
+                {/* Ingestion */}
                 <div className="rounded-xl border bg-card p-5 md:p-6">
-                    <div className="flex flex-col items-center gap-3">
-                        {[
-                            {
-                                title: "User Query",
-                                subtitle: "User sends a message",
-                                icon: MessageSquare,
-                            },
-                            {
-                                title: "Next.js Application",
-                                subtitle: "Handles the request and application logic",
-                                icon: Globe,
-                            },
-                            {
-                                title: "Supabase Hybrid Search",
-                                subtitle: "Retrieves relevant contextual information",
-                                icon: Database,
-                            },
-                            {
-                                title: "OpenAI API",
-                                subtitle: "Generates a context-aware response",
-                                icon: BrainCircuit,
-                            },
-                            {
-                                title: "Streaming Response",
-                                subtitle: "Delivers the response to the chat interface",
-                                icon: Sparkles,
-                            },
-                        ].map((step, index, array) => {
-                            const Icon = step.icon;
+                    <h3 className="mb-5 font-semibold">01. Document Ingestion</h3>
 
-                            return (
-                                <div key={step.title}>
-                                    <div className="flex w-full max-w-md items-center gap-4 rounded-lg border bg-background p-4">
-                                        <div className="rounded-lg bg-primary/10 p-2.5">
-                                            <Icon className="size-5 text-primary" />
-                                        </div>
-
-                                        <div className="min-w-0">
-                                            <h3 className="text-sm font-semibold">
-                                                {step.title}
-                                            </h3>
-                                            <p className="text-xs text-muted-foreground">
-                                                {step.subtitle}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {index !== array.length - 1 && (
-                                        <ArrowDown className="size-4 text-muted-foreground m-auto" />
+                    <div className="flex flex-wrap items-center justify-center gap-2 text-sm">
+                        {["PDF", "Python + LangChain", "Chunking", "Embeddings", "Supabase"].map(
+                            (item, index) => (
+                                <div className="flex" key={item}>
+                                    <Badge variant="secondary">{item}</Badge>
+                                    {index !== 4 && (
+                                        <ArrowRight className="size-4 text-muted-foreground" />
                                     )}
                                 </div>
-                            );
-                        })}
+                            )
+                        )}
                     </div>
+                    <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                        Documents are processed, split into chunks, embedded, and stored
+                        in PostgreSQL for future retrieval.
+                    </p>
+                </div>
+
+                {/* Retrieval */}
+                <div className="rounded-xl border bg-card p-5 md:p-6">
+                    <h3 className="mb-5 font-semibold">02. Conversational Retrieval</h3>
+
+                    <div className="flex flex-wrap items-center justify-center gap-2 text-sm">
+                        {["User Query", "Next.js", "Hybrid Search", "OpenAI", "Streaming"].map(
+                            (item, index) => (
+                                <div className="flex" key={item}>
+                                    <Badge variant="secondary">{item}</Badge>
+                                    {index !== 4 && (
+                                        <ArrowRight className="size-4 text-muted-foreground" />
+                                    )}
+                                </div>
+                            )
+                        )}
+                    </div>
+
+                    <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                        User queries trigger document retrieval. Relevant context is
+                        passed to the language model, which generates and streams
+                        the response back to the chat interface.
+                    </p>
                 </div>
             </section>
 

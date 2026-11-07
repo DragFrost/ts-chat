@@ -58,7 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Image
-                      src="/red-dragon-head-on-transparent-background-free-png.webp"
+                      src="/Neon Teal Dragon Emblem.png"
                       alt="Logo"
                       width={50}
                       height={50}
