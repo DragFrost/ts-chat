@@ -4,6 +4,8 @@
 import { useChat } from '@ai-sdk/react';
 import type { UIMessage } from 'ai';
 import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
@@ -14,7 +16,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Message, MessageContent } from "@/components/ui/message";
-import { ArrowUpIcon, Loader2 } from "lucide-react";
+import { ArrowUpIcon, Sparkles } from "lucide-react";
 
 const STORAGE_KEY = "product-chat-history";
 
@@ -25,6 +27,12 @@ export default function Chat() {
   const { messages, setMessages, sendMessage, status } = useChat();
 
   const formRef = useRef<HTMLFormElement>(null);
+
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   // Restore chat history
   useEffect(() => {
@@ -88,7 +96,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col w-full pt-24 pb-3 mx-auto stretch justify-between gap-3 h-full">
+    <div className="flex flex-col w-full pt-24 mx-auto stretch justify-between gap-3 h-full">
       <div>
         {messages.map((message) => {
           const text = message.parts
@@ -97,14 +105,19 @@ export default function Chat() {
             .join("");
 
           return (
-            <div key={message.id} className="whitespace-pre-wrap mb-3">
+            <div key={message.id} className="mb-3">
               <Message align={message.role === 'user' ? 'end' : 'start'}>
                 <MessageContent>
                   <Bubble
                     align={message.role === 'user' ? 'end' : 'start'}
                     variant="muted"
                   >
-                    <BubbleContent>{text}</BubbleContent>
+                    <BubbleContent className="leading-7.5">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {text}
+                      </ReactMarkdown>
+
+                    </BubbleContent>
                   </Bubble>
                 </MessageContent>
               </Message>
@@ -116,9 +129,22 @@ export default function Chat() {
             <MessageContent>
               <Bubble align="start" variant="muted">
                 <BubbleContent>
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="size-4 animate-spin" />
-                    <span>Thinking...</span>
+                  <div className="flex items-center gap-3 py-1">
+                    <Sparkles className="size-4 text-[#7ccf00] animate-pulse" />
+
+                    <span className="text-sm text-muted-foreground">
+                      Thinking
+                    </span>
+
+                    <div className="flex items-center gap-1">
+                      {[0, 1, 2].map((i) => (
+                        <span
+                          key={i}
+                          className="size-1.5 rounded-full bg-[#7ccf00] animate-bounce"
+                          style={{ animationDelay: `${i * 150}ms` }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </BubbleContent>
               </Bubble>
@@ -135,7 +161,7 @@ export default function Chat() {
 
       <form
         ref={formRef}
-        className="w-full"
+        className="w-full pb-3"
         onSubmit={(e) => {
           e.preventDefault();
 
@@ -162,6 +188,7 @@ export default function Chat() {
         <InputGroup>
           <InputGroupTextarea
             placeholder="Say something..."
+            ref={inputRef}
             value={input}
             onKeyDown={handleKeyDown}
             onChange={(e) => setInput(e.currentTarget.value)}
