@@ -78,8 +78,8 @@ export default function Chat() {
   const suggestions = [
     "What are the key ingredients in SBU-Grow Care?",
     "What is the dosage of Vitamin D3 in the product mentioned?",
-    "How much Iron is included in the product that contains Ferrous Fumarate?",
-    "What are the mg amounts of some of the minerals in SBU-Grow Care?",
+    // "How much Iron is included in the product that contains Ferrous Fumarate?",
+    // "What are the mg amounts of some of the minerals in SBU-Grow Care?",
   ];
 
   const handleKeyDown = (

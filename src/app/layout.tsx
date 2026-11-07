@@ -91,7 +91,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Sidebar>
             <SidebarInset>
               <SidebarTrigger className="ml-7 mt-7 cursor-pointer" />
-              <div className="p-10 pb-0 h-full overflow-hidden">
+              <div className="p-10 pb-0 h-full">
                 {children}
               </div>
             </SidebarInset>
