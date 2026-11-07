@@ -176,14 +176,14 @@ export default function Chat() {
         }}
       >
         {messages.length === 0 && (
-          <ScrollArea className="w-full h-17 rounded-md border whitespace-nowrap">
+          <ScrollArea className="w-full h-17 rounded-md border whitespace-nowrap mb-3">
             <div className="flex w-max space-x-4 p-4">
               {suggestions.map((suggestion) => (
                 <Button
                   key={suggestion}
                   variant="outline"
                   size="sm"
-                  className="shrink-0"
+                  className="shrink-0 cursor-pointer"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
                   {suggestion}

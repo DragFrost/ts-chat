@@ -89,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 </SidebarMenu>
               </SidebarFooter>
             </Sidebar>
-            <SidebarInset>
+            <SidebarInset className="overflow-hidden">
               <SidebarTrigger className="ml-7 mt-7 cursor-pointer" />
               <div className="p-10 pb-0 h-full">
                 {children}
