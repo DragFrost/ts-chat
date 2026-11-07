@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "document"
+    title: "Document ingested"
 };
 
 export default function document() {
